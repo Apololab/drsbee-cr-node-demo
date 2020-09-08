@@ -1,0 +1,14 @@
+{
+  "name": "drsbeeclientdemo",
+  "version": "1.0.0",
+  "description": "Demo to use drsbee.client package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Apololab SA",
+  "license": "ISC",
+  "dependencies": {
+    "drsbee.client": "http://repo.apololab.com/repository/apolo-npm-public/drsbee.client/-/drsbee.client-1.0.4.tgz"
+  }
+}
