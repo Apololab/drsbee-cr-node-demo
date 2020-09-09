@@ -91,7 +91,7 @@ function login() {
 		
 	  	switch (answer) {
 			case "1":
-				userWebService.loginAsHealthprofessionalAsync("doctor@test.com", "MedioQueso2020").then(function(val) {
+                userWebService.loginAsHealthprofessionalAsync("doctor10@test.com", "123456").then(function(val) {
 			      	//console.log(val);
 			      	searchPatient();
 			    })
