@@ -92,8 +92,16 @@ function login() {
 	  	switch (answer) {
 			case "1":
                 userWebService.loginAsHealthprofessionalAsync("doctor10@test.com", "123456").then(function(val) {
-			      	//console.log(val);
-			      	searchPatient();
+			      	console.log(val);
+			      	
+			      	userWebService.getPhysicianLoginAsync().then(function(val) {
+				      	console.log(val);
+				      	searchPatient();
+				    })
+				  	.catch(function(reason) {
+						console.log('Get physician logged failed - ('+reason+')');
+						rl.close();
+				    });
 			    })
 			  	.catch(function(reason) {
 					console.log('Login failed - ('+reason+')');
@@ -157,7 +165,33 @@ function selectPatient(patientResult) {
 			console.log("We get near pharmacies data");
 	  		encounterWebService.getNearPharmaciesForEncounterAsync(-84.5326935, 10.3857364).then(val => {
 		  		console.log(val);
-		  		searchDrug(encounter);
+		  		//searchDrug(encounter);
+/*
+
+		  		// Here we get the drug treatment history
+		  		// if encounter.accessToPatientProfile = false, this call will fail 
+		  		patientWebService.getPatientDrugTreatmentHistoryAsync(selectPatientId).then(val => {
+			  		//console.log(val);
+
+			  		searchDrug(encounter);
+			  	})
+			  	.catch(reason => {
+				     console.log('Get patient drug treatments history failed - ('+reason+')');
+				     searchDrug(encounter);
+			    });
+*/
+			  	// Here we get the active drug treatment history
+		  		// if encounter.accessToPatientProfile = false, this call will fail 
+		  		patientWebService.getPatientActiveDrugTreatmentHistoryAsync(selectPatientId).then(val => {
+			  		console.log(val);
+			  		searchDrug(encounter);
+			  	})
+			  	.catch(reason => {
+				     console.log('Get patient active drug treatments history failed - ('+reason+')');
+				     searchDrug(encounter);
+			    });
+
+
 		  	})
 		  	.catch(reason => {
 			     console.log('Get near pharmacies failed - ('+reason+')');

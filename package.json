@@ -9,6 +9,6 @@
   "author": "Apololab SA",
   "license": "ISC",
   "dependencies": {
-    "drsbee.client": "http://repo.apololab.com/repository/apolo-npm-public/drsbee.client/-/drsbee.client-1.0.4.tgz"
+    "drsbee.client": "http://repo.apololab.com/repository/apolo-npm-public/drsbee.client/-/drsbee.client-1.0.5.tgz"
   }
 }
