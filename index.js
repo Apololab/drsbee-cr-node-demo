@@ -9,6 +9,8 @@ var readline = require('readline');
 
 
 let config = drsbee.BackendConfiguration.DEV_CR;
+
+config.BaseURL = "http://52.247.4.247:8080/drsbee/rest";
 let infoWebService = new drsbee.InfoWebService(config);
 
 let userWebService = new drsbee.UserWebService(config);
@@ -29,7 +31,11 @@ console.log("THIS IS A DEMO PROJECT PROJECT TO SHOW HOW TO USE THE DRSBEE CLIENT
 console.log("\n");
 console.log("First we get all catalogs");
 
-let timeOutPromise = catalogWebService.getTimeUnitsAsync();
+let timeUnitPromise = catalogWebService.getTimeUnitsAsync();
+let prescriptionsAbbreviaturesPromise = catalogWebService.getPrescriptionAbbreviaturesAsync();
+let doseUnitsPromise = catalogWebService.getDoseUnitsAsync();
+let administrationRoutesPromise = catalogWebService.getAdministrationRoutesAsync();
+
 let allergyPromise = catalogWebService.getAllergyOcurrenceReactionsAsync();
 let adherencePromise = catalogWebService.getAdherencesAsync();
 let perceptionPromise = catalogWebService.getPerceptionsAsync();
@@ -45,11 +51,8 @@ let insurancesPromise = catalogWebService.getInsurancesAsync();
 let maritalStatusesPromise = catalogWebService.getMaritalStatusesAsync();
 let identificationTypesPromise = catalogWebService.getIdentificationTypesAsync();
 let contactTypesPromise = catalogWebService.getContactTypesAsync();
-let prescriptionsAbbreviaturesPromise = catalogWebService.getPrescriptionAbbreviaturesAsync();
-let doseUnitsPromise = catalogWebService.getDoseUnitsAsync();
-let administrationRoutesPromise = catalogWebService.getAdministrationRoutesAsync();
 
-Promise.all([timeOutPromise, allergyPromise, adherencePromise, perceptionPromise, allergenStatusPromise, treatmentStatusesPromise,
+Promise.all([timeUnitPromise, allergyPromise, adherencePromise, perceptionPromise, allergenStatusPromise, treatmentStatusesPromise,
     diagnosticStatusesPromise, medicalSpecialitiesPromise, countriesPromise, gendersPromise, ethnicitiesPromise,
     occupationsPromise, insurancesPromise, maritalStatusesPromise, identificationTypesPromise, contactTypesPromise,
     prescriptionsAbbreviaturesPromise, doseUnitsPromise, administrationRoutesPromise
@@ -87,13 +90,12 @@ function login() {
     console.log("\n");
     console.log("Menu:");
     console.log("\t 1 - Login");
-    console.log("\t 2 - ERX Manager Login");
     console.log("\t 3 - Exit");
     rl.question('Select an option ', (answer) => {
 
         switch (answer) {
             case "1":
-                userWebService.loginAsHealthprofessionalAsync("doctor10@test.com", "123456").then(function(val) {
+                userWebService.loginAsHealthprofessionalAsync("USER", "PWD").then(function(val) {
                         console.log(val);
 
                         userWebService.getPhysicianLoginAsync().then(function(val) {
@@ -111,30 +113,6 @@ function login() {
                     });
                 break;
             case "2":
-                userWebService.loginAsERXBotManagerAsync("user", "password").then(function(val) {
-                        console.log(val);
-                        drugWebService.getAllDrugsNamesAsync().then(function(val) {
-                                console.log(val);
-                                drugWebService.getAllActiveIngredientsNamesAsync().then(function(val) {
-                                        console.log(val);
-                                        rl.close();
-                                    })
-                                    .catch(function(reason) {
-                                        console.log('Request failed - (' + reason + ')');
-                                        rl.close();
-                                    });
-                            })
-                            .catch(function(reason) {
-                                console.log('Request failed - (' + reason + ')');
-                                rl.close();
-                            });
-                    })
-                    .catch(function(reason) {
-                        console.log('Login failed - (' + reason + ')');
-                        rl.close();
-                    });
-                break;
-            case "3":
                 rl.close();
                 break;
         }
